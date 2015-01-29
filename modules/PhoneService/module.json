@@ -12,14 +12,14 @@
             "source": "https://github.com/Z-Wave-Me/home-automation"
     },
     "defaults": {
-        "title": "SMS.ru Notifications",
-        "description": "Sends all notifications via free SMS poroxy SMS.ru",
+        "title": "Phone Service",
+        "description": "This service allows you to phone via german phoneservice.",
         "api_key": "",
         "phone": "",
 	    "prefix": "Z-Way notification:"
     },
     "schema": {
-        "description": "Send SMS via SMS.ru gateway.",
+        "description": "Make a call via german phoneservice.",
         "type": "object",
         "properties": {
             "phone": {
@@ -31,7 +31,7 @@
             },
             "api_key": {
                 "required": true,
-                "pattern": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{8}"
+                "pattern": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
             }
         },
         "required": false
