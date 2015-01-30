@@ -29,11 +29,12 @@ _module = NotificationSMSde;
 NotificationSMSde.prototype.init = function (config) {
     NotificationSMSde.super_.prototype.init.call(this, config);
     
-    this.handler = this.onNotHandler();
-        
+    this.handler = this.onNotificationHandler();
+    
+    this.twiloPhone = "+4915735982739";
     this.phone = config.phone.toString();
     this.prefix = config.prefix.toString();
-    this.countryPrefix = config.intl.toString();
+    
 
     this.controller.on('notifications.push', this.handler);
     
@@ -50,16 +51,19 @@ NotificationSMSde.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-NotificationSMSde.prototype.onNotHandler = function () {
+NotificationSMSde.prototype.onNotificationHandler = function () {
     var self = this;
 
     return function(notice) {
         http.request({
             method: 'POST',
-            url: "http://textbelt.com/" + self.countryPrefix,
+            url: "https://api.twilio.com/2010-04-01/Accounts/ACfcf8b99008431cc604ef23dd3ddf4732/Messages.json",
             data: {
-                number: encodeURI(self.phone),
-                message: self.prefix + " " + notice.message
+                From: self.twiloPhone,
+                To: self.phone,
+                Body: self.prefix + " " + notice.message,
+                Sid: "ACfcf8b99008431cc604ef23dd3ddf4732",
+                AuthToken: "9a0236574e7aa560d6c4269b55dba001"
             }
         });
     };    

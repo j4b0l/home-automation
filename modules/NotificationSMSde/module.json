@@ -12,14 +12,13 @@
             "source": "https://github.com/Z-Wave-Me/home-automation"
     },
     "defaults": {
-        "title": "Notification SMS Service, International",
-        "description": "This service allows you to send notification sms via TextBelt.",
+        "title": "Notification SMS Service",
+        "description": "This service allows you to send notification sms via twilio.com.",
         "phone": "",
-	    "prefix": "Z-Way notification:",
-        "intl": ""
+	    "prefix": "Z-Way notification:"
     },
     "schema": {
-        "description": "Make a call via german NotificationSMSde.",
+        "description": "Sends a notification via twilio.com",
         "type": "object",
         "properties": {
             "phone": {
@@ -28,11 +27,6 @@
             },
             "prefix": {
                 "required": false
-            },
-            "intl": {
-                "field": "enum",
-                "enum":["text","canada","intl"],
-                "required": true
             }
         },
         "required": false
@@ -44,12 +38,6 @@
             },
             "prefix": {
                 "label": "Prefix for all messages"
-            },
-            "intl": {
-                "type": "select",
-                "field": "optionLabels",
-                "optionLabels": ["U.S.A.","Canada","International"],
-                "label": "Please choose the country your phone number belongs to."
             }      
         }
     }
