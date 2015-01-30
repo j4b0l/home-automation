@@ -12,14 +12,14 @@
             "source": "https://github.com/Z-Wave-Me/home-automation"
     },
     "defaults": {
-        "title": "Phone Service",
-        "description": "This service allows you to phone via german phoneservice.",
-        "api_key": "",
+        "title": "Notification SMS Service, International",
+        "description": "This service allows you to send notification sms via TextBelt.",
         "phone": "",
-	    "prefix": "Z-Way notification:"
+	    "prefix": "Z-Way notification:",
+        "intl": ""
     },
     "schema": {
-        "description": "Make a call via german phoneservice.",
+        "description": "Make a call via german NotificationSMSde.",
         "type": "object",
         "properties": {
             "phone": {
@@ -29,26 +29,28 @@
             "prefix": {
                 "required": false
             },
-            "api_key": {
-                "required": true,
-                "pattern": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+            "intl": {
+                "field": "enum",
+                "enum":["text","canada","intl"],
+                "required": true
             }
         },
         "required": false
     },
     "options": {
-        "helper": "To register enter your phone number, name and password on http://sms.ru/?panel=register and confirm your phone number with a code.",
         "fields": {
             "phone": {
-                "label": "Phone number to send SMS. In form of 79261234567"
+                "label": "Phone number with country code to send SMS. In form of +79261234567"
             },
             "prefix": {
                 "label": "Prefix for all messages"
             },
-            "api_key": {
-                "label": "API key from SMS.ru",
-		"helper": "After registration on the right you will see api_id (looks like a43f6376-f57d-27e4-5981-ec48945d871f)"
-            }
+            "intl": {
+                "type": "select",
+                "field": "optionLabels",
+                "optionLabels": ["U.S.A.","Canada","International"],
+                "label": "Please choose the country your phone number belongs to."
+            }      
         }
     }
 }

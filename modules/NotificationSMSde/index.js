@@ -1,11 +1,11 @@
-/*** PhoneService Z-Way HA module *******************************************
+/*** NotificationSMSde Z-Way HA module *******************************************
 
 Version: 1.0.0
 (c) Z-Wave.Me, 2014
 -----------------------------------------------------------------------------
 Author: Niels Roche <nir@zwave.me>
 Description:
-    This module allows you to phone via german phoneservice.
+    This module allows you to phone via german NotificationSMSde.
 
 ******************************************************************************/
 
@@ -13,59 +13,54 @@ Description:
 // --- Class definition, inheritance and setup
 // ----------------------------------------------------------------------------
 
-function PhoneService (id, controller) {
+function NotificationSMSde (id, controller) {
     // Call superconstructor first (AutomationModule)
-    PhoneService.super_.call(this, id, controller);
+    NotificationSMSde.super_.call(this, id, controller);
 }
 
-inherits(PhoneService, AutomationModule);
+inherits(NotificationSMSde, AutomationModule);
 
-_module = PhoneService;
+_module = NotificationSMSde;
 
 // ----------------------------------------------------------------------------
 // --- Module instance initialized
 // ----------------------------------------------------------------------------
 
-PhoneService.prototype.init = function (config) {
-    PhoneService.super_.prototype.init.call(this, config);
-    /*
-    this.handler = this.onNotificationHandler();
+NotificationSMSde.prototype.init = function (config) {
+    NotificationSMSde.super_.prototype.init.call(this, config);
+    
+    this.handler = this.onNotHandler();
         
-    this.api_key = config.api_key.toString();
     this.phone = config.phone.toString();
     this.prefix = config.prefix.toString();
+    this.countryPrefix = config.intl.toString();
 
     this.controller.on('notifications.push', this.handler);
-    */
+    
 };
 
-PhoneService.prototype.stop = function () {
-    PhoneService.super_.prototype.stop.call(this);
-    /*
+NotificationSMSde.prototype.stop = function () {
+    NotificationSMSde.super_.prototype.stop.call(this);
+    
     this.controller.off('notifications.push', this.handler);
-    */
+    
 };
 
 // ----------------------------------------------------------------------------
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-PhoneService.prototype.onNotificationHandler = function () {
-    /*var self = this;
+NotificationSMSde.prototype.onNotHandler = function () {
+    var self = this;
 
     return function(notice) {
         http.request({
-            method: 'GET',
-            url: "https://sms2.cdyne.com/sms.svc/SecureREST/SimpleSMSsend",
+            method: 'POST',
+            url: "http://textbelt.com/" + self.countryPrefix,
             data: {
-                LicenceKey: self.api_key,
-                PhoneNumber: self.phone,
-                Message: self.prefix + " " + notice.message
+                number: encodeURI(self.phone),
+                message: self.prefix + " " + notice.message
             }
         });
-    };
-    */
-    
+    };    
 };
-
-//https://sms2.cdyne.com/sms.svc/SecureREST/SimpleSMSsend?PhoneNumber={00491624763650}&Message={HelloWorld}&LicenseKey={364e9666-e76f-4089-a5d8-704394db6ebb}
