@@ -29,21 +29,26 @@ _module = NotificationSMSde;
 NotificationSMSde.prototype.init = function (config) {
     NotificationSMSde.super_.prototype.init.call(this, config);
     
-    this.handler = this.onNotificationHandler();
-    
-    this.twiloPhone = "+4915735982739";
-    this.phone = config.phone.toString();
-    this.prefix = config.prefix.toString();
-    
+    var self = this;
 
-    this.controller.on('notifications.push', this.handler);
+    this.handler = this.onNotificationHandler();
+
+    this.twiloPhone = url.encode(config.twilio_from.toString());
+    this.phone = url.encode(config.twilio_to.toString());
+    this.sid = config.twilio_sid.toString();
+    this.authtoken = config.twilio_authtoken.toString();
+    this.prefix = config.prefix.toString();
+
+    self.controller.on('notifications.push', this.handler);
     
 };
 
 NotificationSMSde.prototype.stop = function () {
     NotificationSMSde.super_.prototype.stop.call(this);
     
-    this.controller.off('notifications.push', this.handler);
+    var self = this;
+
+    self.controller.off('notifications.push', this.handler);
     
 };
 
@@ -57,13 +62,13 @@ NotificationSMSde.prototype.onNotificationHandler = function () {
     return function(notice) {
         http.request({
             method: 'POST',
-            url: "https://api.twilio.com/2010-04-01/Accounts/ACfcf8b99008431cc604ef23dd3ddf4732/Messages.json",
+            url: "https://api.twilio.com/2010-04-01/Accounts/"+ self.sid +"/Messages.json",
             data: {
                 From: self.twiloPhone,
                 To: self.phone,
                 Body: self.prefix + " " + notice.message,
-                Sid: "ACfcf8b99008431cc604ef23dd3ddf4732",
-                AuthToken: "9a0236574e7aa560d6c4269b55dba001"
+                Sid: self.sid,
+                AuthToken: self.authtoken
             }
         });
     };    

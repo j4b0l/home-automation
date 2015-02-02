@@ -1,0 +1,113 @@
+{
+    "dependencies": [],
+    "singleton": false,
+    "category": "notifications",
+    "author": "Z-Wave.Me",
+    "homepage": "http://razberry.z-wave.me",
+    "icon": "",
+    "version": "1.0.0",
+    "maturity": "stable",
+    "repository": {
+            "type": "git",
+            "source": "https://github.com/Z-Wave-Me/home-automation"
+    },
+    "defaults": {
+        "title": "OOB Notification SMS Service",
+        "description": "This service allows you to send out of band notifications with a specific provider.",
+        "provider": "",
+        "twilio_from": "",
+        "twilio_to": "",
+        "twilio_sid": "",
+        "twilio_authtoken":"",
+	    "prefix": "Z-Way notification:"
+    },
+    "schema": {
+        "label": "Select a service provider.",
+        "type": "object",
+        "properties": {
+            "provider": {
+                "type": "string",
+                "enum": ["default","twilio", "devGa"],
+                "required": true
+            },
+            "twilio_from": {
+                "type": "string",
+                "required": true,
+                "dependencies": "provider"
+            },
+            "twilio_to": {
+                "type": "string",
+                "required": true,
+                "dependencies": "provider"
+            },
+            "twilio_sid": {
+                "type": "string",
+                "required": true,
+                "dependencies": "provider"
+            },
+            "twilio_authtoken": {
+                "type": "string",
+                "required": true,
+                "dependencies": "provider"
+            },
+            "prefix": {
+                "type": "string",
+                "required": false
+            }
+        }
+    },
+    "options": {
+        "fields": {
+            "provider": {
+                "label": "Choose your provider",
+                "type": "select",
+                "fields": "optionLabels",
+                "optionLabels": ["-- select a service --","Twilio","Developers Garden"],
+                "onFieldChange": function(e) {
+                    if(e === "twilio") {
+                        "helper": "TWILIO!!!!"
+                    }
+                }
+            },
+            "twilio_from": {
+                "label": "Twilio Phone Number",
+                "helper": "Please enter the twilio generated phonenumber, e.g. '+491122334455'",
+                "pattern": "[1-9][0-9]*",
+                "dependencies": {
+                    "provider": "twilio"
+                },
+                "required": true
+            },
+            "twilio_to": {
+                "label": "Destination Phone Number",
+                "helper": "Please enter your destination phone number, e.g. '+491122334455'",
+                "pattern": "[1-9][0-9]*",
+                "dependencies": {
+                    "provider": "twilio"
+                },
+                "required": true
+            },
+            "twilio_sid": {
+                "label": "Twilio SID",
+                "helper": "Please enter your twilio sid, e.g. 'ACfcf8b99008431cc604ef23dd3ddf4732'",
+                "pattern": "[a-zA-Z0-9]{34}",
+                "dependencies": {
+                    "provider": "twilio"
+                },
+                "required": true
+            },
+            "twilio_authtoken": {
+                "label": "Twilio Authtoken",
+                "helper": "Please enter your twilio authtoken, e.g. '7a0236574e7ff560d6d4269a55dba001'",
+                "pattern": "[a-zA-Z0-9]{32}",
+                "dependencies": {
+                    "provider": "twilio"
+                },
+                "required": true
+            },
+            "prefix": {
+                "label": "Prefix for all messages"
+            }  
+        } 
+    }
+}
