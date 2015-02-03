@@ -62,12 +62,7 @@
                 "label": "Choose your provider",
                 "type": "select",
                 "fields": "optionLabels",
-                "optionLabels": ["-- select a service --","Twilio","Developers Garden"],
-                "onFieldChange": function(e) {
-                    if(e === "twilio") {
-                        "helper": "TWILIO!!!!"
-                    }
-                }
+                "optionLabels": ["-- select a service --","Twilio","Developers Garden"]
             },
             "twilio_from": {
                 "label": "Twilio Phone Number",

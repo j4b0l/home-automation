@@ -1,11 +1,11 @@
-/*** NotificationSMSde Z-Way HA module *******************************************
+/*** OOBNotifier Z-Way HA module *******************************************
 
 Version: 1.0.0
 (c) Z-Wave.Me, 2014
 -----------------------------------------------------------------------------
 Author: Niels Roche <nir@zwave.me>
 Description:
-    This module allows you to phone via german NotificationSMSde.
+    This module allows you to phone via german OOBNotifier.
 
 ******************************************************************************/
 
@@ -13,38 +13,44 @@ Description:
 // --- Class definition, inheritance and setup
 // ----------------------------------------------------------------------------
 
-function NotificationSMSde (id, controller) {
+function OOBNotifier (id, controller) {
     // Call superconstructor first (AutomationModule)
-    NotificationSMSde.super_.call(this, id, controller);
+    OOBNotifier.super_.call(this, id, controller);
 }
 
-inherits(NotificationSMSde, AutomationModule);
+inherits(OOBNotifier, AutomationModule);
 
-_module = NotificationSMSde;
+_module = OOBNotifier;
 
 // ----------------------------------------------------------------------------
 // --- Module instance initialized
 // ----------------------------------------------------------------------------
 
-NotificationSMSde.prototype.init = function (config) {
-    NotificationSMSde.super_.prototype.init.call(this, config);
+OOBNotifier.prototype.init = function (config) {
+    OOBNotifier.super_.prototype.init.call(this, config);
     
     var self = this;
+        this.tw_from = encodeURI(config.twilio_from);
+        this.tw_to = encodeURI(config.twilio_to);
+        this.tw_sid = config.twilio_sid;
+        this.tw_at = config.twilio_authtoken;
+        this.prefix = config.prefix;
 
-    this.handler = this.onNotificationHandler();
-
-    this.twiloPhone = url.encode(config.twilio_from.toString());
-    this.phone = url.encode(config.twilio_to.toString());
-    this.sid = config.twilio_sid.toString();
-    this.authtoken = config.twilio_authtoken.toString();
-    this.prefix = config.prefix.toString();
+    this.handler = function(){
+        if(config.provider === 'twilio') {
+            this.onNotificationHandler();
+        } else {
+            return;
+        }
+        
+    };
 
     self.controller.on('notifications.push', this.handler);
     
 };
 
-NotificationSMSde.prototype.stop = function () {
-    NotificationSMSde.super_.prototype.stop.call(this);
+OOBNotifier.prototype.stop = function () {
+    OOBNotifier.super_.prototype.stop.call(this);
     
     var self = this;
 
@@ -56,19 +62,17 @@ NotificationSMSde.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-NotificationSMSde.prototype.onNotificationHandler = function () {
+OOBNotifier.prototype.onNotificationHandler = function () {
     var self = this;
 
     return function(notice) {
         http.request({
             method: 'POST',
-            url: "https://api.twilio.com/2010-04-01/Accounts/"+ self.sid +"/Messages.json",
+            url: "https://api.twilio.com/2010-04-01/Accounts/"+ self.tw_sid +"/SMS/Messages",
             data: {
-                From: self.twiloPhone,
-                To: self.phone,
-                Body: self.prefix + " " + notice.message,
-                Sid: self.sid,
-                AuthToken: self.authtoken
+                From: self.tw_from,
+                To: self.tw_to,
+                Body: self.prefix + " " + notice.message
             }
         });
     };    
