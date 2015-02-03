@@ -14,21 +14,32 @@
     "defaults": {
         "title": "OOB Notification SMS Service",
         "description": "This service allows you to send out of band notifications with a specific provider.",
+        "service":"",
         "provider": "",
         "twilio_from": "",
         "twilio_to": "",
         "twilio_sid": "",
         "twilio_authtoken":"",
+        "mail_from":"",
+        "mail_to":"",
+        "mail_subject":"",
+        "mail_cc":"",
 	    "prefix": "Z-Way notification:"
     },
     "schema": {
         "label": "Select a service provider.",
         "type": "object",
         "properties": {
+            "service":{
+                "type": "string",
+                "enum": ["default","mail", "sms", "tts"],
+                "required": true
+            },
             "provider": {
                 "type": "string",
                 "enum": ["default","twilio", "devGa"],
-                "required": true
+                "required": true,
+                "dependencies": "service"
             },
             "twilio_from": {
                 "type": "string",
@@ -50,19 +61,49 @@
                 "required": true,
                 "dependencies": "provider"
             },
+            "mail_from": {
+                "type": "string",
+                "required": true,
+                "dependencies": "service"
+            },
+            "mail_to": {
+                "type": "string",
+                "required": true,
+                "dependencies": "service"
+            },
+            "mail_subject": {
+                "type": "string",
+                "required": true,
+                "dependencies": "service"
+            },
+            "mail_cc": {
+                "type": "string",
+                "required": true,
+                "dependencies": "service"
+            },
             "prefix": {
                 "type": "string",
-                "required": false
+                "required": false,
+                "dependencies": "provider"
             }
         }
     },
     "options": {
         "fields": {
+            "service": {
+                "label": "Kind of notification",
+                "type": "select",
+                "fields": "optionLabels",
+                "optionLabels": ["-- select a service --","E-mail","Short Message Service","Text To Speech"]
+            },
             "provider": {
                 "label": "Choose your provider",
                 "type": "select",
                 "fields": "optionLabels",
-                "optionLabels": ["-- select a service --","Twilio","Developers Garden"]
+                "optionLabels": ["-- select a provider --","Twilio","Developers Garden"],
+                "dependencies": {
+                    "service": "sms"
+                }
             },
             "twilio_from": {
                 "label": "Twilio Phone Number",
@@ -100,8 +141,35 @@
                 },
                 "required": true
             },
+            "mail_from": {
+                "label": "Sender",
+                "dependencies": {
+                    "service": "mail"
+                }
+            },
+            "mail_to": {
+                "label": "Destination",
+                "dependencies": {
+                    "service": "mail"
+                }
+            },
+            "mail_subject": {
+                "label": "Email Subject",
+                "dependencies": {
+                    "service": "mail"
+                }
+            },
+            "mail_cc": {
+                "label": "CC",
+                "dependencies": {
+                    "service": "mail"
+                }
+            },
             "prefix": {
-                "label": "Prefix for all messages"
+                "label": "Prefix for all messages",
+                "dependencies": {
+                    "service": "sms"
+                }
             }  
         } 
     }

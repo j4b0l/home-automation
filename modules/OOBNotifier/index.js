@@ -30,20 +30,13 @@ OOBNotifier.prototype.init = function (config) {
     OOBNotifier.super_.prototype.init.call(this, config);
     
     var self = this;
-        this.tw_from = encodeURI(config.twilio_from);
-        this.tw_to = encodeURI(config.twilio_to);
-        this.tw_sid = config.twilio_sid;
-        this.tw_at = config.twilio_authtoken;
-        this.prefix = config.prefix;
+    this.tw_from = encodeURI(config.twilio_from);
+    this.tw_to = encodeURI(config.twilio_to);
+    this.tw_sid = config.twilio_sid;
+    this.tw_at = config.twilio_authtoken;
+    this.prefix = config.prefix;
 
-    this.handler = function(){
-        if(config.provider === 'twilio') {
-            this.onNotificationHandler();
-        } else {
-            return;
-        }
-        
-    };
+    this.handler = this.onNotificationHandler();
 
     self.controller.on('notifications.push', this.handler);
     
