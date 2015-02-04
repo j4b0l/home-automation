@@ -1,0 +1,7 @@
+{
+	"m_descr":"This service allows you to send out of band notifications via email.",
+	"label":"Fill the forms below to get notifications via email.",
+	"to":"Destination Adress",
+	"name":"Name",
+	"subject":"Email Subject"
+}

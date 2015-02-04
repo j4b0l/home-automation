@@ -1,0 +1,7 @@
+{
+	"m_descr":"Dieser Service benachrichtigt via E-mail, wenn eine Notification ausgelöst wird.",
+	"label":"Füllen Sie die unten stehenden Felder aus, um per E-mail benachrichtigt zu werden.",
+	"to":"Zieladresse",
+	"name":"Name",
+	"subject":"Betreff"
+}

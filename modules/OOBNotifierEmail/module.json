@@ -1,0 +1,52 @@
+{
+    "dependencies": [],
+    "singleton": false,
+    "category": "notifications",
+    "author": "Z-Wave.Me",
+    "homepage": "http://razberry.z-wave.me",
+    "icon": "",
+    "version": "1.0.0",
+    "maturity": "stable",
+    "repository": {
+            "type": "git",
+            "source": "https://github.com/Z-Wave-Me/home-automation"
+    },
+    "defaults": {
+        "title": "OOB Notification - Email",
+        "description": "__m_descr__",
+        "mail_to":"",
+        "target_name":"",
+        "mail_subject":""
+    },
+    "schema": {
+        "label": "__label__",
+        "type": "object",
+        "properties": {
+            "mail_to": {
+                "type": "string",
+                "required": true
+            },
+            "target_name": {
+                "type": "string",
+                "required": true
+            },
+            "mail_subject": {
+                "type": "string",
+                "required": true
+            }
+        }
+    },
+    "options": {
+        "fields": {
+            "mail_to": {
+                "label": "__to__"
+            },
+            "target_name": {
+                "label": "__name__"
+            },
+            "mail_subject": {
+                "label": "__subject__"
+            }
+        } 
+    }
+}
