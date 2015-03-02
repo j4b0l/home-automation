@@ -162,7 +162,9 @@ HTTPDevice.prototype.update = function (vDev) {
 HTTPDevice.prototype.act = function (vDev, action, subst, selfValue) {
     var self = this,
         deviceType = vDev.get("deviceType"),
-        url = this.config["setter" + action + "_" + deviceType];
+        url = this.config["setter" + action + "_" + deviceType],
+        moduleName = "HTTPDevice",
+        langFile = self.controller.loadModuleLang(moduleName);
     
     if (url) {
     	if (subst) {
@@ -173,7 +175,7 @@ HTTPDevice.prototype.act = function (vDev, action, subst, selfValue) {
             method: this.config.method,
             async: true,
             error: function(response) {
-                self.controller.addNotification("error", "Can not make request: " + response.statusText, "module");
+                self.controller.addNotification("error", langFile.err_req + response.statusText, "module", moduleName);
             }
         });
     } else if (selfValue !== null) {
